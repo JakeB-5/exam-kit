@@ -1,0 +1,6 @@
+.DS_Store
+.exam-kit/
+.playwright-cli/
+node_modules/
+.env
+.env.*

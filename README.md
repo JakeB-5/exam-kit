@@ -1,0 +1,86 @@
+# exam-kit
+
+**시험·해커톤용 코딩 AI 준비를 링크 하나로.**
+
+`sdd-tool`로 명세와 구현을 진행하고, `verification-before-completion`으로 검증 근거를 확인하며, Playwright로 실제 화면을 검사합니다. **Playwright CLI + 스킬을 먼저 설치·검사하고, 작동하지 않을 때만 MCP를 추가합니다.**
+
+## 한 번에 요청하기
+
+시험의 **실제 과제 폴더를 연 코딩 AI**에게 아래 내용을 그대로 보내세요.
+
+> https://github.com/JakeB-5/exam-kit 의 README.md와 AGENTS.md를 읽고 현재 과제 폴더에 exam-kit을 설치해줘. sdd-tool, verification-before-completion, Playwright CLI와 스킬을 준비하고 실제 브라우저 동작까지 확인해줘. CLI가 복구되지 않으면 Playwright MCP를 추가하고 실제 연결을 확인해줘. 기존 파일과 설정을 보존하면서 PREWRITE.md를 현재 프로젝트의 AGENTS.md에 병합해줘. 이후 구현이 끝나면 요구사항 ID별 테스트 방법·실제 결과·증거 위치·미확인 사항을 기록하고, 업무 담당자에게 보낼 검토 요청문 작성을 자동으로 제안해줘. 명령어 안내만 하고 끝내지 말고 가능한 작업은 직접 완료해줘.
+
+더 짧게 요청해도 됩니다.
+
+> https://github.com/JakeB-5/exam-kit 를 이 과제에 설치하고 AGENTS.md에 따라 동작 확인까지 끝내줘.
+
+이 저장소는 **코딩 AI가 읽고 실행할 설치 절차와 미리 작성된 프로젝트 지침**입니다. 링크 자체가 설치를 실행하지는 않습니다. 파일·터미널을 사용할 수 있는 에이전트가 필요합니다. 패키지 다운로드나 브라우저 실행이 제한된 환경에서는 완료한 단계와 막힌 단계를 구분해 알려줍니다.
+
+## 설치 후 달라지는 것
+
+| 단계 | 기본 행동 |
+| --- | --- |
+| 구현 전 · Prewrite | 과제 자료를 읽고 확인된 요구사항·가설·질문을 구분합니다. 요구사항 ID와 인수 조건을 정합니다. |
+| 구현 중 | 작은 단위로 구현하고 해당 요구사항을 실제로 확인합니다. |
+| 구현 후 | 요구사항별 검증표와 증거를 남기고, 미확인 사항을 구분합니다. |
+| 담당자 검토 | 구현 흐름·실제 사용 예시·검증 결과를 정리한 검토 요청문 작성을 자동으로 제안합니다. |
+
+**예상 설치 위치**
+
+```text
+현재 과제/
+├── AGENTS.md                   # 기존 내용 + SDD 지침 + exam-kit 지침
+├── CLAUDE.md                   # 필요한 경우 AGENTS.md 참조
+├── .sdd/                       # 명세와 작업 관리
+├── .agents/skills/             # Codex용 선택 스킬
+├── .claude/skills/             # Claude Code용 선택 스킬
+├── .exam-kit/                  # 로컬 도구, 설치 기록, 개인 증거 — 공개 제외
+└── docs/
+    ├── verification.md         # 요구사항별 실제 검증 결과
+    └── review-request.md       # 담당자에게 전달할 검토 요청 초안
+```
+
+설치 절차는 전역 npm 설정, 기존 프로젝트 의존성, 다른 과제의 브라우저 세션을 바꾸지 않는 로컬 설치를 우선합니다. 재요청할 때는 기존 설치를 검사하고 필요한 부분만 복구합니다.
+
+## 동작 확인 기준
+
+- SDD: 실행 파일과 프로젝트 초기화 상태, 생성된 스킬을 확인합니다.
+- 검증 스킬: 현재 에이전트가 읽을 수 있는 위치의 `SKILL.md`를 확인합니다.
+- Playwright: 버전 출력뿐 아니라 **실제 로컬 페이지 열기 → 입력 → 클릭 → 결과 확인 → 증거 저장**까지 확인합니다.
+- MCP 대체: 설정 파일을 만들었다는 이유만으로 성공이라고 하지 않습니다. 도구 호출과 같은 브라우저 검사가 실제로 통과해야 합니다.
+
+설치 상세 절차는 [AGENTS.md](AGENTS.md), 프로젝트에 병합할 지침은 [PREWRITE.md](PREWRITE.md)에 있습니다.
+
+## 구현 후 자동으로 제안하는 내용
+
+> 요구사항별 테스트 방법·실제 결과·증거 위치·미확인 사항을 정리했습니다. 이 자료로 구현 흐름과 실제 사용 예시를 담은 담당자 검토 요청문을 준비할 수 있습니다. 다음으로 미확인 항목을 더 검증하거나 담당자에게 확인할 질문을 정리하는 것을 제안합니다.
+
+실제로 작성하거나 검사한 것만 완료라고 보고합니다. 검토 요청문은 초안으로 준비하며, 담당자에게 메시지를 전송하거나 서비스를 공개하는 행동은 별도 요청이 있을 때만 합니다.
+
+## 템플릿
+
+- [요구사항별 검증표](templates/VERIFICATION.md)
+- [담당자 검토 요청문](templates/REVIEW-REQUEST.md)
+
+## 기준 버전과 확인 범위
+
+기본 절차는 Node.js **22.20 이상**(24 LTS 권장), npm, Git을 기준으로 합니다. `skills` 설치 도구의 요구 버전까지 포함한 기준입니다.
+
+| 구성 | 문서 기준 버전 |
+| --- | --- |
+| sdd-tool | 2.1.1 |
+| @playwright/cli | 0.1.22 |
+| skills | 1.7.4 |
+| @playwright/mcp · 대체 경로 | 0.0.83 |
+
+버전별 실제 확인 결과는 [CHECKS.md](CHECKS.md)에 기록합니다. 시험 도중 무조건 최신 버전으로 갱신하지 않습니다. Cofa 실행 환경에서의 지원 여부를 보증하는 저장소는 아닙니다.
+
+## 원본 도구
+
+- [SDD Tool](https://github.com/JakeB-5/sdd-tool) · [사용 문서](https://jakeb-5.github.io/sdd-tool/ko/)
+- [Verification Before Completion](https://github.com/obra/superpowers/tree/main/skills/verification-before-completion)
+- [Playwright CLI와 스킬](https://github.com/microsoft/playwright-cli)
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp)
+- [Skills 설치 도구](https://github.com/vercel-labs/skills)
+
+외부 스킬의 원문을 이 저장소에 복제하지 않고 원본에서 선택 설치합니다. 시험 주최 측의 도구 사용 규칙을 따르는 독립적인 개인 준비 키트입니다.
