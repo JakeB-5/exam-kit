@@ -8,7 +8,7 @@
 
 시험의 **실제 과제 폴더를 연 코딩 AI**에게 아래 내용을 그대로 보내세요.
 
-> https://github.com/JakeB-5/exam-kit 의 README.md와 AGENTS.md를 읽고 현재 과제 폴더에 exam-kit을 설치해줘. question.md가 있으면 먼저 읽고 원문을 보존해줘. sdd-tool, verification-before-completion, Playwright CLI와 스킬을 준비하고 sdd init으로 초기화해줘. 과제 루트 AGENTS.md에 과제 목적·자료 기준·범위·미확정 사항·검증 원칙을 작성하고 기존 지침과 SDD 블록을 보존하며 PREWRITE.md를 병합해줘. 설치 중에는 Playwright 브라우저 실행·스모크/E2E·브라우저 다운로드·MCP 추가를 하지 마. 설치 파일과 과제 지침 반영 여부만 확인해줘. 이후 구현이 끝나면 요구사항 ID별 테스트 방법·실제 결과·증거 위치·미확인 사항을 기록하고 업무 담당자 검토 요청문을 준비·제안해줘. 가능한 작업은 직접 완료해줘.
+> https://github.com/JakeB-5/exam-kit 의 README.md와 AGENTS.md를 읽고 현재 과제 폴더에 exam-kit을 설치해줘. question.md가 있으면 먼저 읽고 원문을 보존해줘. sdd-tool, verification-before-completion, Playwright CLI와 스킬을 준비하고 sdd init으로 초기화해줘. 과제 루트 AGENTS.md는 실제 프로젝트의 목적·자료 기준·범위·핵심 동작·미확정 사항·검증/완료 기준 중심으로 작성해줘. 기존 프로젝트 규칙은 보존하고 SDD 관리 블록과 PREWRITE 상세 규칙은 docs/development-workflow.md로 분리해 루트에서는 필요할 때만 참조하게 해줘. 설치 중에는 Playwright 브라우저 실행·스모크/E2E·브라우저 다운로드·MCP 추가를 하지 마. 설치 파일과 과제 지침 반영 여부만 확인해줘. 이후 구현이 끝나면 요구사항 ID별 테스트 방법·실제 결과·증거 위치·미확인 사항을 기록하고 업무 담당자 검토 요청문을 준비·제안해줘. 가능한 작업은 직접 완료해줘.
 
 더 짧게 요청해도 됩니다.
 
@@ -29,29 +29,34 @@
 
 ```text
 현재 과제/
-├── AGENTS.md                   # 기존 내용 + SDD 지침 + 과제별 지침 + exam-kit 지침
+├── AGENTS.md                   # 실제 프로젝트의 목적·범위·개발·완료 기준
 ├── CLAUDE.md                   # 필요한 경우 AGENTS.md 참조
 ├── .sdd/                       # 명세와 작업 관리
 ├── .agents/skills/             # Codex용 선택 스킬
 ├── .claude/skills/             # Claude Code용 선택 스킬
 ├── .exam-kit/                  # 로컬 도구, 설치 기록, 개인 증거 — 공개 제외
 └── docs/
+    ├── development-workflow.md # SDD·도구 사용법·상세 검증 절차
     ├── verification.md         # 요구사항별 실제 검증 결과
     └── review-request.md       # 담당자에게 전달할 검토 요청 초안
 ```
 
 설치 절차는 전역 npm 설정, 기존 프로젝트 의존성, 다른 과제의 브라우저 세션을 바꾸지 않는 로컬 설치를 우선합니다. 재요청할 때는 기존 설치를 검사하고 필요한 부분만 복구합니다.
 
+## 두 AGENTS.md의 역할
+
+이 저장소의 **AGENTS.md는 설치자를 위한 안내**입니다. 생성되는 **과제 루트 AGENTS.md는 해당 프로젝트를 개발하기 위한 지침**입니다. 설치 안내나 SDD 매뉴얼을 루트에 합쳐 넣지 않습니다. `sdd init`의 관리 블록과 PREWRITE 전문은 `docs/development-workflow.md`에 보존하고 루트에는 과제에 필요한 판단 기준과 참조만 남깁니다.
+
 ## 설치 완료 확인 기준
 
 - SDD: 실행 파일과 프로젝트 초기화 상태, 생성된 스킬을 확인합니다.
 - 검증 스킬: 현재 에이전트가 읽을 수 있는 위치의 `SKILL.md`를 확인합니다.
-- 과제 지침: question.md/지정 자료를 기준으로 과제 목적·범위·정책·미확정 사항이 루트 AGENTS.md에 반영됐는지 확인합니다. `sdd init`만으로 과제 내용을 자동 해석했다고 가정하지 않습니다.
+- 과제 지침: question.md/지정 자료를 기준으로 과제 목적·범위·정책·미확정 사항이 루트 AGENTS.md의 중심인지, 상세 도구 안내가 별도 문서로 분리됐는지 확인합니다. `sdd init`만으로 과제 내용을 자동 해석했다고 가정하지 않습니다.
 - Playwright: 실행 파일 버전과 스킬 파일·보조 리소스만 확인합니다. 실제 브라우저 검증 상태는 `NOT_RUN`이며 설치 완료를 막지 않습니다.
 - 설치 상태는 `installed` / `partial`로 보고합니다. 설치 중 가상 페이지·스모크/E2E·스크린샷·브라우저 다운로드·MCP 대체 검사는 하지 않습니다.
 - 구현 후 필요한 실제 화면 검사와 MCP 대체 절차는 [BROWSER-CHECKS.md](BROWSER-CHECKS.md)를 따릅니다.
 
-설치 상세 절차는 [AGENTS.md](AGENTS.md), 프로젝트에 병합할 지침은 [PREWRITE.md](PREWRITE.md)에 있습니다.
+설치 상세 절차는 [AGENTS.md](AGENTS.md), 별도 개발 절차 문서에 병합할 규칙은 [PREWRITE.md](PREWRITE.md), 루트 작성 기준은 [프로젝트 지침 틀](templates/PROJECT-AGENTS.md)에 있습니다.
 
 ## 구현 후 자동으로 제안하는 내용
 
@@ -61,6 +66,7 @@
 
 ## 템플릿
 
+- [프로젝트 AGENTS 작성 기준](templates/PROJECT-AGENTS.md)
 - [요구사항별 검증표](templates/VERIFICATION.md)
 - [담당자 검토 요청문](templates/REVIEW-REQUEST.md)
 
